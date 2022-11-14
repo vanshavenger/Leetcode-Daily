@@ -1,23 +1,27 @@
 class Solution {
 public:
-    void dfs(vector<vector<int>>& stones,int ind,int& n,vector<bool>& vis){
+    bool vis[1001];
+    int n;
+    void dfs(vector<vector<int>>& stones,int ind){
         vis[ind] = true;
-        for(int i = 0;i < n;i++){
+        for(int i = 0;i < n;++i){
             if(vis[i]) continue;
             if(stones[ind][0] == stones[i][0] || stones[ind][1] == stones[i][1]){
-                dfs(stones,i,n,vis);
+                dfs(stones,i);
             }
         }
     }
     
     int removeStones(vector<vector<int>>& stones) {
-        int n = stones.size();
-        vector<bool> vis(n,false);
+        n = stones.size();
+        memset(vis,false,sizeof(vis));
         int count = 0;
-        for(int i = 0;i < n;i++){
-            if(vis[i]) continue;
-            dfs(stones,i,n,vis);
-            count++;
+        for(int i = 0;i < n;++i){
+            if(!vis[i]){
+                dfs(stones,i);
+                count++;
+            }
+            
         }
         return n - count;
     }
